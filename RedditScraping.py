@@ -24,7 +24,7 @@ counter = 1
 for title in Top100:
     print(counter)
     counter += 1
-    for submission in reddit.subreddit("television").search(title):
+    for submission in reddit.subreddit("movies").search(title):
         # if submission.title.contains(movie):
         submission.comments.replace_more(limit=None)
         comments = []
@@ -36,7 +36,7 @@ for title in Top100:
                        }
             comments.append(nextCom)
         post = {"Title": submission.title,
-                "Subreddit": "television",
+                "Subreddit": "movies",
                 "Score": submission.score,
                 "Like_Ratio": submission.upvote_ratio,
                 "Body": submission.selftext,
