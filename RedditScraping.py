@@ -19,13 +19,12 @@ clientString = "mongodb://" + mongodb_username + ":" + mongodb_password + "@" + 
 client = MongoClient(clientString)
 db = client['Reddit']
 
-Top100 = ["The Godfather","The Shawshank Redemption","Schindler's List","Raging Bull","Casablanca","Citizen Kane","Gone with the Wind","The Wizard of Oz","One Flew Over the Cuckoo's Nest","Lawrence of Arabia","Vertigo","Psycho","The Godfather Part II","On the Waterfront","Sunset Blvd.","Forrest Gump","The Sound of Music","Angry Men","West Side Story","Star Wars: Episode IV - A New Hope","2001: A Space Odyssey","E.T. the Extra-Terrestrial","The Silence of the Lambs","Chinatown","The Bridge on the River Kwai","Singin' in the Rain","It's a Wonderful Life","Dr.Strangelove or: How I learned to Stop Worrying and Love the Bomb","Some Like It Hot","Ben-Hur","Apocalypse Now","Amadeus","The Lord of the Rings: The Return of the King","Gladiator","Titanic","From Here to Eternity","Saving Private Ryan","Unforgiven","Indiana Jones and the Raiders of the Lost Ark","Rocky","A Streetcar Named Desire","The Philadelphia Story","To Kill a Mockingbird","An American in Paris","The Best Years of Our Lives","My Fair Lady","A Clockwork Orange","Doctor Zhivago","The Searches","Jaws","Patton","Butch Cassidy and the Sundance Kid","The Treasure of the Sierra Madre","The Good, the Bad and the Ugly","The Apartment","Platoon","High Noon","Braveheart","Dances with Wolves","Jurassic Park","The Exorcist","The Pianist","Goodfellas","The Deer Hunter","All Quiet on the Western Front","Bonnie and Clyde","The French Connection","City Lights","It Happened One Night","A Place in the Sun","Midnight Cowboy","Mr. Smith Goes to Washington","Rain Man","Annie Hall","Fargo","Giant","Shane","The Grapes of Wrath","The Green Mile","Close Encounters of the Third Kind","Nashville","Network","The Graduate","American Graffiti","Pulp Fiction","Terms of Endearment","Good Will Hunting","The African Queen","Stagecoach","Mutiny on the Bounty","The Great Dictator","Double Indemnity","The Maltese Falcon","Wuthering Heights","Taxi Driver","Rear Window","The Third Man","Rebel Without a Cause","North by Northwest","Yankee Doodle Dandy"]
-
+Top100 = ["What We Do in the Shadows","Oz","The Good FIght","The Odd Couple","Rick and Morty","Squid Game","NewsRadio","The Rockford Files","The Muppet Show","The Tonight Show Starring Johnny Carson","The Wonder Years","The Carol Burnett Show","The Crown","The Kids in the Hall","The Bob Newhart Show","Orange Is the New Black","Fargo","I'm Alan Partridge","Party Down","It's Always Sunny in Philadelphia","Band of Brothers","Mr.Show with Bob and David","Sex and the City","The Jeffersons","Justified","Frasier","The Honeymooners","Buffy the Vampire Slayer","Good Times","Better Things","SCTV","Chappelle's Show","Fawlty Towers","NYPD Blue","The Daily Show With Jon Stewart","Girls","The Golden Girls","South Park","The Dick Van Dyke Show","The Underground Railroad","Taxi","Key & Peele","Six Feet Under","Russian Doll","Community","Halt and Catch Fire","ER","The Office (UK)","Barry","The X-Files","Jeopardy!","Friends","The Shield","My So-Called Life","The West Wing","Columbo","Late Night With David Letterman","Insecure","Battlestar Galactica","BoJack Horseman","The Good Place","Curb Your Enthusiasm","Hill Streets Blues","Arrested Development","I Love Lucy","Lost","The Office","Monty Python's Flying Circus","Better Call Saul","Game of Thrones","Parks and Recreation","Roots","Friday Night Lights","Deadwood","Sesame Street","M*A*S*H","Freaks and Geeks","Watchmen","Star Trek","All in the Family","30 Rock","I May Destroy You","Saturday Night Live","The Leftovers","Twin Peaks","The Larry Sanders Show","The Americans","Veep","The Twilight Zone","Succession","The Mary Tyler Moore Show","Atlanta","Cheers","Mad Men","Seinfeld","Fleabag","The Wire","Breaking Bad","The Simpsons","The Sopranos"]
 counter = 1
 for title in Top100:
     print(counter)
     counter += 1
-    for submission in reddit.subreddit("movies").search(title):
+    for submission in reddit.subreddit("television").search(title):
         # if submission.title.contains(movie):
         submission.comments.replace_more(limit=None)
         comments = []
@@ -37,7 +36,7 @@ for title in Top100:
                        }
             comments.append(nextCom)
         post = {"Title": submission.title,
-                "Subreddit": "movies",
+                "Subreddit": "television",
                 "Score": submission.score,
                 "Like_Ratio": submission.upvote_ratio,
                 "Body": submission.selftext,
