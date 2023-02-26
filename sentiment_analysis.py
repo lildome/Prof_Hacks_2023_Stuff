@@ -18,7 +18,7 @@ client = MongoClient(clientString)
 db = client['Reddit']
 for collection in db.list_collection_names():
     print(collection)
-    for document in db[collection].find():
+    for document in db[collection].find({"Sentiment" : None}):
         body = document['Body']
         post_sentiment = sentiment.polarity_scores(body)
         document['Sentiment'] = post_sentiment['compound']
