@@ -1,5 +1,7 @@
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from pymongo import MongoClient
+from bson.objectid import ObjectId
+
 
 userInfoFile = open("UserInfo.txt", 'r')
 lines = userInfoFile.readlines()
@@ -15,6 +17,7 @@ clientString = "mongodb://" + mongodb_username + ":" + mongodb_password + "@" + 
 client = MongoClient(clientString)
 db = client['Reddit']
 for collection in db.list_collection_names():
+    print(collection)
     for document in db[collection].find():
         body = document['Body']
         post_sentiment = sentiment.polarity_scores(body)
@@ -22,6 +25,7 @@ for collection in db.list_collection_names():
         for comment in document['Comments']:
             comment_body = comment['Body']
             comment_sentiment = sentiment.polarity_scores(comment_body)
-            comment['Sentiment'] = comment_sentiment['compound']
-        db['collection'].update_one({"_id" : document['_id']},
-                                    {"Sentiment" : post_sentiment, "Comments" : document["Comments"]})
+            result = db[collection].update_one({"_id" : ObjectId(document["_id"]), "Comments.Body" : comment["Body"]},
+                                      {"$set" : {"Comments.$.Sentiment" : comment_sentiment['compound']}})
+        result = db[collection].update_one({"_id" : ObjectId(document['_id'])},
+                                    {"$set" : {"Sentiment" : post_sentiment['compound']}})
